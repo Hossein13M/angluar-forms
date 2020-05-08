@@ -1,29 +1,85 @@
-<div class="container">
-  <div class="container mt-5">
-    <div class="text-center header mb-5">
-      <h1 class="text-center display-4">Angular Forms</h1>
-    </div>
-
-    <div class="form-body">
-      <mat-card class="text-center">
-        <h1 class="display-4 text-center mb-3">Register Form</h1>
-        <form class="form" [formGroup]="registerForm" (submit)="registerForm()">
-          <!-- choosing the role -->
-          <label class="mr-3 my-0">Select Your Role: </label>
-          <mat-radio-group name="account_type" formControlName="role">
-            <mat-radio-button [value]="employee">
-              Employee
-            </mat-radio-button>
-            <mat-radio-button [value]="jobSeeker">
-              Job Seeker
-            </mat-radio-button>
-          </mat-radio-group>
-        </form>
-      </mat-card>
-    </div>
-  </div>
-
-
-
-
+<div class="container pt-5">
+  <mat-card class="col-8 mx-auto text-center">
+    <h1 class="display-4 mb-5">Register Form</h1>
+    <form [formGroup]="registerForm" (submit)="submitForm()">
+      <!-- choosing the role -->
+      <mat-radio-group name="account_type" formControlName="role">
+        <label class="mx-3 my-0">Select Your Role: </label>
+        <mat-radio-button class="mx-2" value="jobSeeker">
+          Job Seeker
+        </mat-radio-button>
+        <mat-radio-button class="mx-2" value="employee">
+          Employee
+        </mat-radio-button>
+      </mat-radio-group>
+      <br />
+      <!-- Full Name -->
+      <mat-form-field class="col-5 mt-3 mx-auto">
+        <mat-label>Full Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="fullName"
+          placeholder="Ex. Hossein Mousavi"
+        />
+        <mat-error *ngIf="registerForm.get('fullName').hasError('required')">
+          Full Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <!-- phone number -->
+      <mat-form-field class="col-5 mb-2 mx-auto">
+        <mat-label>Phone</mat-label>
+        <input type="text" matInput formControlName="phone" />
+        <mat-error *ngIf="registerForm.get('phone').hasError('required')">
+          Phone is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <!-- Email -->
+      <mat-form-field class="col-5 mb-2 mx-auto">
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="email"
+          placeholder="Ex. mail@gmail.com"
+        />
+        <mat-error
+          *ngIf="
+            registerForm.get('email').hasError('email') &&
+            !registerForm.get('email').hasError('required')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('email').hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <!-- Password -->
+      <mat-form-field class="col-5 mb-2 mx-auto">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password" />
+        <mat-error *ngIf="registerForm.get('password').hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <button
+        [disabled]="!registerForm.valid"
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="col-3 mt-2 mb-3"
+      >
+        Submit
+      </button>
+      <br />
+      <ng-template [ngIf]="submitStatus">
+        <span>Form submitted succesfully!</span>
+      </ng-template>
+    </form>
+  </mat-card>
 </div>
